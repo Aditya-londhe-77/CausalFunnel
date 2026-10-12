@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tracker Demo Page</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 10px;
+      background: #e8f4e8;
+      color: #2a7a2a;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+
+    section {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    section p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    button {
+      padding: 8px 18px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
+      color: #333;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button:hover { background: #f0f0f0; }
+
+    button.primary {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+
+    button.primary:hover { background: #1d4ed8; }
+
+    .links { margin-top: 8px; }
+    .links a {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-right: 16px;
+    }
+    .links a:hover { text-decoration: underline; }
+
+    #click-count {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Interaction Tracker — Demo Page</h1>
+      <p>This page is instrumented with <code>tracker.js</code>. Every click and page load is recorded and visible in the dashboard.</p>
+      <span class="badge">tracker.js active</span>
+    </header>
+
+    <section>
+      <h2>About this demo</h2>
+      <p>
+        Open the <a href="http://localhost:5173" target="_blank">React dashboard</a> in another tab to see your interactions appear in real time (after a refresh).
+        Your session ID is stored in <code>localStorage</code> so it persists across reloads.
+      </p>
+      <p>
+        The tracker records a <strong>page_view</strong> event when this page loads, and a <strong>click</strong> event with X/Y coordinates each time you click anywhere.
+      </p>
+    </section>
+
+    <section>
+      <h2>Click targets</h2>
+      <p>Click the buttons below to generate click events with various positions on the page.</p>
+      <div class="button-row">
+        <button class="primary" onclick="countClick(this)">Primary Action</button>
+        <button onclick="countClick(this)">Secondary</button>
+        <button onclick="countClick(this)">Another Button</button>
+        <button onclick="countClick(this)">Yet Another</button>
+      </div>
+      <div id="click-count">Clicks on this page: 0</div>
+    </section>
+
+    <section>
+      <h2>Navigation links</h2>
+      <p>Follow these links to test that the session ID is reused across navigations.</p>
+      <div class="links">
+        <a href="demo.html">Reload this page</a>
+        <a href="http://localhost:5173" target="_blank">Open Dashboard</a>
+        <a href="http://localhost:5173/heatmap" target="_blank">Open Heatmap</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Random content area</h2>
+      <p>Click anywhere in this section to add heatmap data points in the centre of the page.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi vel consectetur interdum, nisl nunc egestas nunc, vitae tincidunt nisl nunc euismod nunc.</p>
+      <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+    </section>
+
+    <footer>
+      Interaction Tracker &mdash; CausalFunnel Assignment &mdash; Pure Node.js + React + MongoDB
+    </footer>
+  </div>
+
+  <script>
+    var localClicks = 0;
+    function countClick(btn) {
+      localClicks++;
+      document.getElementById('click-count').textContent = 'Clicks on this page: ' + localClicks;
+    }
+  </script>
+
+  <!-- Tracking script — loaded from the Node.js backend -->
+  <script src="http://localhost:5000/tracker.js"></script>
+</body>
+</html>
